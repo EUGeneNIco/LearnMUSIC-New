@@ -1,0 +1,32 @@
+
+<section class="text-dark p-0">
+    <div class="row align-items-center">
+        <div class="col-md-6 p-md-5 pt-5 p-3">
+            <div class="container col-lg-6 p-3">
+                <h1 class="mb-5 text-center">Log In</h1>
+                <p class="lead">Good to see you again</p>
+                <form [formGroup]="form" autocomplete="off" (ngSubmit)="onLogIn()">
+                    <div class="mb-3">
+                        <label for="userName" class="col-form-label">
+                            User Name:
+                        </label>
+                        <input formControlName="userName" type="text" class="form-control" id="userName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="col-form-label">
+                            Password:
+                        </label>
+                        <input formControlName="password" type="password" class="form-control" id="password">
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <button class="btn btn-primary">Sign In</button>
+                        <button class="btn btn-secondary " (click)="backToHome()">Back</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6 p-0 side-image bg d-none d-md-block">
+            <img class="login-bg img-fluid w-50 d-none d-md-block" src="assets/image/piano.png" alt="image">
+        </div>
+    </div>
+</section>

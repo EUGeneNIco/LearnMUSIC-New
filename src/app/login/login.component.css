@@ -1,0 +1,22 @@
+.login-bg {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.bg {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+}
+
+.login-bg img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}

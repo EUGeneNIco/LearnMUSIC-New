@@ -1,0 +1,49 @@
+<section class="text-dark p-0" >
+        <div class="row align-items-center ">
+            <div class="col-md-6 p-0 side-image bg d-none d-md-block">
+                <img class="login-bg img-fluid w-50 d-none d-md-block" src="assets/image/piano.png" alt="image">
+            </div>
+            <div class="col-md-6 p-md-5 pt-5 p-3">
+                <div class="container col-lg-6 p-3">
+                    <h1 class="mb-5 text-center">Sign Up</h1>
+                    <p class="lead">Please Enter your Credentials</p>
+                        <form class="row" [formGroup]="form" autocomplete="off" (ngSubmit)="onSignIn()">
+                            <div class="mb-3">
+                                <label for="firstName" class="col-form-label">
+                                    First Name:
+                                </label>
+                                <input formControlName="firstName" type="text" class="form-control" id="firstName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="col-form-label">
+                                    Last Name:
+                                </label>
+                                <input formControlName="lastName" type="text" class="form-control" id="lastName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="col-form-label">
+                                    Email:
+                                </label>
+                                <input formControlName="email" type="text" class="form-control" id="email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="userName" class="col-form-label">
+                                    User Name:
+                                </label>
+                                <input formControlName="userName" type="text" class="form-control" id="userName">
+                            </div>
+                            <div class="mb-5">
+                                <label for="password" class="col-form-label">
+                                    Password:
+                                </label>
+                                <input formControlName="password" type="password" class="form-control" id="password">
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <button class="btn btn-primary">Create Account</button>
+                                <button class="btn btn-secondary " (click)="backToHome()">Back</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+</section>
