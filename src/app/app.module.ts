@@ -18,6 +18,7 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SongSheetsComponent } from './song-sheets/song-sheets.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
     LoginComponent,
     MainNavComponent,
-    ProfileComponent
+    ProfileComponent,
+    SongSheetsComponent
   ],
   imports: [
     BrowserModule,
