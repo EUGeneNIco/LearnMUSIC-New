@@ -15,4 +15,8 @@ export class UserService extends BaseService {
   getOwnProfile(id: any) {
     return this.http.get(this.API_URL + '/User/getUserProfile/' + id);
   }
+
+  searchForBandmates(id: any) {
+    return this.http.get(this.API_URL + '/User/searchBandmates/' + id);
+  }
 }

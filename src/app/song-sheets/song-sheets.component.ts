@@ -11,7 +11,7 @@ import { SongSheetService } from '../_services/song-sheet.service';
   templateUrl: './song-sheets.component.html',
   styleUrls: ['./song-sheets.component.css']
 })
-export class SongSheetsComponent implements OnInit, OnChanges {
+export class SongSheetsComponent implements OnInit {
 
   title = 'LearnMUSIC';
   
@@ -30,7 +30,7 @@ export class SongSheetsComponent implements OnInit, OnChanges {
   sheetsLeft: any = 0;
   lastLastSheetNo: any = 0;
 
-  @Input() getSongsheets:any = false;
+  // @Input() getSongsheets:any = false;
 
 
   constructor(
@@ -41,16 +41,6 @@ export class SongSheetsComponent implements OnInit, OnChanges {
     public router: Router,
     private route: ActivatedRoute,)
     { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    console.log("Changes: " ,changes);
-    for (const propName in changes) {
-      if(propName ===  'getSongsheets'){
-        this.reloadData();
-      }
-    }
-  }
   
   ngOnInit(): void {
     this.reloadData();
@@ -73,15 +63,19 @@ export class SongSheetsComponent implements OnInit, OnChanges {
   getAllCards(){
     this.songSheetService.getAllSheets(this.auth.userID).subscribe({
       next: (data: any) => {
-        console.log(data);
+        console.log("Songs: " ,data);
+        
+        this.allSheets = data;
+        
         if(data.length > 6){
           this.needMorePage = true;
-          this.allSheets = data;
+          // this.allSheets = data;
           this.showFirstPage();
         }
         else{
           this.sheets = data;
         }
+
       },
       error: (e) => {
         this.toastr.error(e.error);

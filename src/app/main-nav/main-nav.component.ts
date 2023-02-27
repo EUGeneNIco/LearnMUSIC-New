@@ -11,7 +11,6 @@ import { AuthService } from '../_services/auth.service';
 })
 export class MainNavComponent implements OnChanges {
   
-  // loggedIn: boolean = false;
   isAdmin: boolean = false;
 
   @Input() loggedIn:any;
@@ -48,7 +47,7 @@ export class MainNavComponent implements OnChanges {
     this.loggedOut.emit(true);
 
     this.router.navigateByUrl('');
-    // this.router.url === '/' ? this.ngOnInit() : this.router.navigateByUrl('')
+    
     this.toastr.success("Logged out.");
   }
 
