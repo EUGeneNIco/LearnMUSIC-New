@@ -1,0 +1,8 @@
+.musician-card:hover img {
+    transform: scale(1.07);
+    transition: 0.5s ease-in-out;
+}
+
+.musician-card img {
+    transition: 0.5s ease-in-out;
+}
