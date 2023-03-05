@@ -3,6 +3,7 @@ using LearnMUSIC.Common.Helper;
 using LearnMUSIC.Core.Application._Exceptions;
 using LearnMUSIC.Core.Application._Interfaces;
 using LearnMUSIC.Core.Application.Users.Models;
+using LearnMUSIC.Core.Domain.Contracts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -13,16 +14,18 @@ namespace LearnMUSIC.Core.Application.Users.Queries.AuthenticateUser
   {
     private readonly IAppDbContext dbContext;
     private readonly IDateTime dateTime;
+    private readonly IUserRepository userRepository;
 
-    public AuthenticateUserQueryHandler(IAppDbContext dbContext, IDateTime dateTime)
+    public AuthenticateUserQueryHandler(IAppDbContext dbContext, IDateTime dateTime, IUserRepository userRepository)
     {
       this.dbContext = dbContext;
       this.dateTime = dateTime;
+      this.userRepository = userRepository;
     }
 
     public async Task<UserClaimsDto> Handle(AuthenticateUserQuery request, CancellationToken cancellationToken)
     {
-      var user = await this.dbContext.Users.FirstOrDefaultAsync(x => x.UserName == request.Username.Trim());
+      var user = await this.userRepository.GetUserByUsernameAsync(request.Username.Trim());
           
       if(user is null)
       {

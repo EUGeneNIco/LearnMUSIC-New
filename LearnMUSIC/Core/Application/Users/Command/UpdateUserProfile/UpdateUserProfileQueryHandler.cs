@@ -3,6 +3,7 @@ using LearnMUSIC.Common.Common;
 using LearnMUSIC.Core.Application._Exceptions;
 using LearnMUSIC.Core.Application._Interfaces;
 using LearnMUSIC.Core.Application.Users.Models;
+using LearnMUSIC.Core.Domain.Contracts;
 using MediatR;
 
 namespace LearnMUSIC.Core.Application.Users.Command.UpdateUserProfile
@@ -11,16 +12,18 @@ namespace LearnMUSIC.Core.Application.Users.Command.UpdateUserProfile
   {
     private readonly IAppDbContext dbContext;
     private readonly IDateTime dateTime;
+    private readonly IUserRepository userRepository;
 
-    public UpdateUserProfileQueryHandler(IAppDbContext dbContext, IDateTime dateTime)
+    public UpdateUserProfileQueryHandler(IAppDbContext dbContext, IDateTime dateTime, IUserRepository userRepository)
     {
       this.dbContext = dbContext;
       this.dateTime = dateTime;
+      this.userRepository = userRepository;
     }
 
     public async Task<long> Handle(UpdateUserProfileQuery request, CancellationToken cancellationToken)
     {
-      var user = await this.dbContext.Users.FindAsync(request.Id);
+      var user = await this.userRepository.GetUserProfileByIdAsync(request.Id);
 
       if(user is null)
       {

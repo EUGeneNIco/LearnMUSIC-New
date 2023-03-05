@@ -3,6 +3,7 @@ using LearnMUSIC.Common.Common;
 using LearnMUSIC.Common.Helper;
 using LearnMUSIC.Core.Application._Exceptions;
 using LearnMUSIC.Core.Application._Interfaces;
+using LearnMUSIC.Core.Domain.Contracts;
 using LearnMUSIC.Core.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +14,20 @@ namespace LearnMUSIC.Core.Application.Users.Command.CreateUser
   {
     private readonly IAppDbContext dbContext;
     private readonly IDateTime dateTime;
+    private readonly IUserRepository userRepository;
 
-    public CreateUserCommandHandler(IAppDbContext dbContext, IDateTime dateTime)
+    public CreateUserCommandHandler(IAppDbContext dbContext, IDateTime dateTime, IUserRepository userRepository)
     {
       this.dbContext = dbContext;
       this.dateTime = dateTime;
+      this.userRepository = userRepository;
     }
 
     public async Task<long> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-      if (dbContext.Users.Any(x => x.UserName == request.Username.Trim() && !x.IsDeleted))
+      var existingMemberWithSameUsername = await this.userRepository.GetUserByUsernameAsync(request.Username.Trim());
+
+      if (existingMemberWithSameUsername != null)
       {
         throw new DuplicateException("Username already exists.");
       }

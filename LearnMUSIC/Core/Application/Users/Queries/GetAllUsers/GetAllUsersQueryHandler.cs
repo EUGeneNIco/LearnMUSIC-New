@@ -4,25 +4,29 @@ using LearnMUSIC.Core.Application._Interfaces;
 using LearnMUSIC.Core.Application.Users.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using LearnMUSIC.Core.Domain.Contracts;
 
 namespace LearnMUSIC.Core.Application.Users.Queries.GetAllUsers
 {
   public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserGridItem>>
   {
-    private readonly IAppDbContext dbContext;
     private readonly IMapper mapper;
+    private readonly IUserRepository userRepository;
 
-    public GetAllUsersQueryHandler(IAppDbContext dbContext, IMapper mapper)
+    public GetAllUsersQueryHandler(IMapper mapper, IUserRepository userRepository)
     {
-      this.dbContext = dbContext;
       this.mapper = mapper;
+      this.userRepository = userRepository;
     }
 
     public async Task<IEnumerable<UserGridItem>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-      var users = await this.dbContext.Users
-        .Where(x => x.UserName != "eugene")
-        .ToListAsync(cancellationToken);
+      var users = await this.userRepository.GetAllUsersAsync();
+
+      //if (!users.Any())
+      //{
+      //  return Enumerable.Empty<UserGridItem>();
+      //}
 
       return this.mapper.Map<IEnumerable<UserGridItem>>(users);
     }

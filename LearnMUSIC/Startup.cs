@@ -15,6 +15,7 @@ using LearnMUSIC.Common.Common;
 using LearnMusic.Interface.WebApi.HostedService;
 using LearnMUSIC.Interface.WebAPI.Helpers;
 using LearnMUSIC.Core.Application._Service;
+using LearnMUSIC.Core.Domain.Contracts;
 
 namespace LearnMUSIC
 {
@@ -89,6 +90,7 @@ namespace LearnMUSIC
       //DbContext
       //services.AddScoped(typeof(IAppDbContext), typeof(AppDbContext));
       services.AddScoped(typeof(IAppDbContext), typeof(AppDbContext));
+      services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 
       services.AddMediatR(typeof(Startup).GetTypeInfo());
 
