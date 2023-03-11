@@ -27,12 +27,10 @@ namespace LearnMUSIC.Core.Application.Users.Models
 
     public string PhotoUrl { get; set; }
 
-    //public List<PhotoViewDto> Photos { get; set; }
-
     public void CreateMappings(Profile configuration)
     {
       configuration.CreateMap<User, UserProfileDto>()
-        .ForMember(b => b.PhotoUrl, s => s.MapFrom(x => x.Photos.Select(x => x.Url).First()));
+        .ForMember(b => b.PhotoUrl, s => s.MapFrom(x => !x.Photos.Any() ? "" : x.Photos.Select(x => x.Url).First()));
     }
   }
 }

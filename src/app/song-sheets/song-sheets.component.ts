@@ -17,18 +17,14 @@ export class SongSheetsComponent implements OnInit {
   
   needMorePage: boolean = false;
   hasPrevPage: boolean = false;
-  sheets: any[] = [];
+  songSheets: any[] = [];
   allSheets: any[] = [];
-  editMode: boolean = false;
-  viewMode: boolean = false;
-  displayConfirmationModal: boolean = false;
   videos: any[] = [];
 
-  //Pagin
-  pageLimit: any = 6;
-  lastSheetNo: any = 0;
-  sheetsLeft: any = 0;
-  lastLastSheetNo: any = 0;
+  //Paging
+  readonly pageLimit: any = 6;
+  type: string = "Songsheets"
+
 
   // @Input() getSongsheets:any = false;
 
@@ -47,35 +43,23 @@ export class SongSheetsComponent implements OnInit {
   }
 
   reloadData(){
-    this.pageLimit = 6;
-    this.lastSheetNo = 0;
-    this.lastLastSheetNo = 0;
-    this.sheetsLeft = 0;
     this.needMorePage = false;
     this.hasPrevPage = false;
-    this.sheets = [];
+    this.songSheets = [];
     this.allSheets = [];
-    this.editMode = false;
-    this.viewMode = false;
     this.getAllCards();
   }
 
   getAllCards(){
     this.songSheetService.getAllSheets(this.auth.userID).subscribe({
       next: (data: any) => {
-        console.log("Songs: " ,data);
+        // console.log("Songs: " ,data);
+        
+        if(data.length > this.pageLimit){
+          this.needMorePage = true;
+        }
         
         this.allSheets = data;
-        
-        if(data.length > 6){
-          this.needMorePage = true;
-          // this.allSheets = data;
-          this.showFirstPage();
-        }
-        else{
-          this.sheets = data;
-        }
-
       },
       error: (e) => {
         this.toastr.error(e.error);
@@ -83,92 +67,12 @@ export class SongSheetsComponent implements OnInit {
     })
   }
 
-  showFirstPage(){
-    for(let index = 0; index < 6; index++){
-      this.sheets.push(this.allSheets[index]);
+  
+  displaySheets(event: any){
+    if(event){
+      // console.log("Output sheet from child songsheet",event);
+      this.songSheets = event;
     }
-    this.lastSheetNo = 6;
-    this.sheetsLeft = this.allSheets.length - this.lastSheetNo;
-    this.showStatus();
-  }
-
-  showNextPage(){
-    while(this.sheets.length > 0){
-      this.sheets.pop();
-    }
-
-    this.hasPrevPage = true;
-
-      if(this.sheetsLeft >= 6){
-
-        for(let index = this.lastSheetNo; index < (this.lastSheetNo + 6); index++){
-          this.sheets.push(this.allSheets[index]);
-        }
-    
-        this.lastLastSheetNo = this.lastSheetNo;
-        this.lastSheetNo = this.lastSheetNo + 6;
-        this.sheetsLeft = this.allSheets.length - this.lastSheetNo;
-
-        this.showStatus();
-
-        if(this.sheetsLeft === 0){
-          this.needMorePage = false;
-        }
-
-      }
-      else if(this.sheetsLeft < 6){
-        for(let index = this.lastSheetNo; index < this.allSheets.length; index++){
-          this.sheets.push(this.allSheets[index]);
-        }
-        
-        this.needMorePage = false;
-        this.lastLastSheetNo = this.lastSheetNo;
-        this.lastSheetNo = this.lastSheetNo + this.sheetsLeft;
-        this.sheetsLeft = this.allSheets.length - this.lastSheetNo;
-        this.showStatus();
-      }
-  }
-
-  showPrevPage(){
-    while(this.sheets.length > 0){
-      this.sheets.pop();
-    }
-    let firstSheet = this.lastSheetNo - 5;
-
-    if(firstSheet > 0 && this.sheetsLeft != 0){
-      for(let index = firstSheet - 7; index < (firstSheet - 1); index++){
-        this.sheets.push(this.allSheets[index]);
-      }
-      
-      this.lastLastSheetNo = this.lastSheetNo;
-      this.lastSheetNo = firstSheet - 1;
-      this.sheetsLeft = this.allSheets.length - this.lastSheetNo;
-      
-      // this.showStatus();
-
-      if(this.lastSheetNo === 6){
-        this.hasPrevPage = false;
-      }
-    }
-    else if(this.sheetsLeft === 0){
-      for(let index = this.lastLastSheetNo - 6; index < this.lastLastSheetNo; index++){
-        this.sheets.push(this.allSheets[index]);
-      }
-
-      this.sheetsLeft = this.lastSheetNo - this.lastLastSheetNo;
-      this.lastSheetNo = this.lastLastSheetNo;
-      this.needMorePage = true;
-
-      // this.showStatus();
-      if(this.lastSheetNo === 6){
-        this.hasPrevPage = false;
-      }
-    }
-  }
-
-  showStatus(){
-    // console.log("Sheets left:" + this.sheetsLeft);
-    // console.log("Last Sheet No:" + this.lastSheetNo);
   }
 
   viewSongSheetDetails(sheetId: any){
@@ -181,7 +85,6 @@ export class SongSheetsComponent implements OnInit {
 
   deleteSongSheet(sheetId: any){
     console.log(sheetId);
-    // this.displayConfirmationModal = true;
     this.songSheetService.delete(sheetId).subscribe({
       next: (data: any) => {
         // console.log(data);
@@ -196,6 +99,5 @@ export class SongSheetsComponent implements OnInit {
 
   editSongSheet(sheetId: any){
     // this.router.navigateByUrl('chords/detail/' + sheetId);
-
   }
 }

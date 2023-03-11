@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SongSheetsComponent } from './song-sheets/song-sheets.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SongSheetsComponent } from './song-sheets/song-sheets.component';
     LoginComponent,
     MainNavComponent,
     ProfileComponent,
-    SongSheetsComponent
+    SongSheetsComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

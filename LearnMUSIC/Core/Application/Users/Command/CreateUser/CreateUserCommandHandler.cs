@@ -32,51 +32,11 @@ namespace LearnMUSIC.Core.Application.Users.Command.CreateUser
         throw new DuplicateException("Username already exists.");
       }
 
-      //Add User
-      var createdOn = dateTime.Now;
+      var user = await this.userRepository.CreateUserAsync(request, cancellationToken);
 
-      var user = new User
-      {
-        UserName = request.Username,
-        PasswordHash = PasswordHelper.Hash(request.Password),
-
-        FirstName = request.FirstName.Trim(),
-        LastName = request.LastName.Trim(),
-        Email = request.Email.Trim(),
-        CodeName = String.Empty,
-        Bio = String.Empty,
-        AboutMe = String.Empty,
-
-        CreatedOn = createdOn,
-      };
-
-      dbContext.Users.Add(user);
-
-      GrantModuleAccess(user);
-
-      await dbContext.SaveChangesAsync(cancellationToken);
+      await this.userRepository.GiveAccessToUserAsync(user, cancellationToken);
 
       return user.Id;
-    }
-
-    public void GrantModuleAccess(User user)
-    {
-      var modules = dbContext.Modules
-        .Where(x => x.Category == ModuleCategory.Usual)
-        .ToList();
-
-      //Add User Module Access
-      foreach (var module in modules)
-      {
-        var moduleAccess = new UserModuleAccess
-        {
-          User = user,
-          ModuleId = module.Id,
-          HasAccess = true,
-        };
-
-        dbContext.UserModuleAccesses.Add(moduleAccess);
-      }
     }
   }
 }

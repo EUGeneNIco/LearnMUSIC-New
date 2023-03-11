@@ -11,6 +11,13 @@ export class DashboardComponent implements OnInit {
 
   intrumentalists: any[] = [];
 
+  //Search people paging
+  readonly searchPeoplePageLimit = 4;
+  needMorePage: boolean = false;
+  sheets: any[] = [];
+  allSheets: any[] = [];
+  type: string = "Musicians";
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -25,14 +32,26 @@ export class DashboardComponent implements OnInit {
   searchForBandmates(){
     this.userService.searchForBandmates(this.authService.userID).subscribe({
       next: (data: any) => {
-        console.log(data);
-        this.intrumentalists = data;
+        console.log("Musicians: ",data);
+        // this.intrumentalists = data;
+
+        if(data.length > this.searchPeoplePageLimit){
+          this.needMorePage = true;
+        }
+        this.allSheets = data;
       },
       error: (e) => {
         // this.toastr.error(e);
         console.log(e);
       }
     })
+  }
+
+  displaySheets(event: any){
+    if(event){
+      // console.log("Output sheet from child",event);
+      this.intrumentalists = event;
+    }
   }
 
 }

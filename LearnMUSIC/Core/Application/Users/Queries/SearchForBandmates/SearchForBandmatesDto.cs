@@ -20,7 +20,7 @@ namespace LearnMUSIC.Core.Application.Users.Queries.SearchForBandmates
     {
       configuration.CreateMap<User, SearchForBandmatesDto>()
         .ForMember(x => x.FullName, s => s.MapFrom(b => $"{b.FirstName} {b.LastName}"))
-        .ForMember(b => b.PhotoUrl, s => s.MapFrom(x => x.Photos.Select(x => x.Url).First()));
+        .ForMember(b => b.PhotoUrl, s => s.MapFrom(x => !x.Photos.Any() ? "" : x.Photos.Select(x => x.Url).First()));
     }
   }
 }

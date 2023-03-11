@@ -1,9 +1,6 @@
 using LearnMUSIC.Controllers;
 using LearnMUSIC.Core.Application._Exceptions;
-using LearnMUSIC.Core.Application.Feedbacks.Commands.AddFeedback;
-using LearnMUSIC.Core.Application.Feedbacks.Queries.GetAllFeedbacks;
 using LearnMUSIC.Core.Application.Users.Command.UpdateUserProfile;
-using LearnMUSIC.Core.Application.Users.Queries.GetAllUsers;
 using LearnMUSIC.Core.Application.Users.Queries.GetUserProfile;
 using LearnMUSIC.Core.Application.Users.Queries.SearchForBandmates;
 using Microsoft.AspNetCore.Authorization;
@@ -44,7 +41,7 @@ namespace LearnMUSIC.Interface.WebAPI.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> GetProfile([FromBody] UpdateUserProfileQuery query)
+    public async Task<ActionResult> GetProfile([FromBody] UpdateUserProfileCommand query)
     {
       try
       {

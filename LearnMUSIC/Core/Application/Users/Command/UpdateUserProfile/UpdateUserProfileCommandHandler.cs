@@ -8,20 +8,20 @@ using MediatR;
 
 namespace LearnMUSIC.Core.Application.Users.Command.UpdateUserProfile
 {
-  public class UpdateUserProfileQueryHandler : IRequestHandler<UpdateUserProfileQuery, long>
+  public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, long>
   {
     private readonly IAppDbContext dbContext;
     private readonly IDateTime dateTime;
     private readonly IUserRepository userRepository;
 
-    public UpdateUserProfileQueryHandler(IAppDbContext dbContext, IDateTime dateTime, IUserRepository userRepository)
+    public UpdateUserProfileCommandHandler(IAppDbContext dbContext, IDateTime dateTime, IUserRepository userRepository)
     {
       this.dbContext = dbContext;
       this.dateTime = dateTime;
       this.userRepository = userRepository;
     }
 
-    public async Task<long> Handle(UpdateUserProfileQuery request, CancellationToken cancellationToken)
+    public async Task<long> Handle(UpdateUserProfileCommand request, CancellationToken cancellationToken)
     {
       var user = await this.userRepository.GetUserProfileByIdAsync(request.Id);
 
@@ -35,15 +35,7 @@ namespace LearnMUSIC.Core.Application.Users.Command.UpdateUserProfile
         throw new AlreadyDeletedException("User is deleted.");
       }
 
-      user.CodeName = request.CodeName.Trim();
-      user.Bio = request.Bio.Trim();
-      user.AboutMe = request.AboutMe.Trim();
-      user.FirstName = request.FirstName.Trim();
-      user.LastName = request.LastName.Trim();
-
-      user.ModifiedOn = this.dateTime.Now;
-
-      await this.dbContext.SaveChangesAsync(cancellationToken);
+      await this.userRepository.UpdateUserAsync(user, request, cancellationToken);
 
       return user.Id;
     }

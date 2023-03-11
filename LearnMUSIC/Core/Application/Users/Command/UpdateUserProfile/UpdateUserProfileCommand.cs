@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LearnMUSIC.Core.Application.Users.Command.UpdateUserProfile
 {
-  public class UpdateUserProfileQuery : IRequest<long>
+  public class UpdateUserProfileCommand : IRequest<long>
   {
     public long Id { get; set; }
 
