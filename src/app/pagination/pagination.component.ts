@@ -39,11 +39,11 @@ export class PaginationComponent implements OnInit, OnChanges {
   hasPrevPage: boolean = false;
 
   showFirstPage(){
-    // console.log("show first page", this.allSheets,this.pageLimit, this.type)
+    console.log("show first page", this.allSheets,this.pageLimit, this.type)
     if(this.allSheets !== undefined && this.allSheets.length > 0 
         && this.pageLimit !== undefined && this.pageLimit > 0){
 
-      // console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
+      console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
       let lastIndex: any;
       if(this.allSheets.length >= this.pageLimit){
         lastIndex = this.pageLimit

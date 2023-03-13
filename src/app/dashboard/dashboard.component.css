@@ -6,3 +6,7 @@
 .musician-card img {
     transition: 0.5s ease-in-out;
 }
+
+.search-filter ul li a:hover{
+    cursor: pointer;
+}

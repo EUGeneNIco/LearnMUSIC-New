@@ -64,11 +64,11 @@ namespace LearnMUSIC.Interface.WebAPI.Controllers
     }
 
 
-    [HttpGet("searchBandmates/{userId}")]
+    [HttpPost("searchBandmates")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> GetProfile([FromRoute] SearchForBandmatesQuery query)
+    public async Task<ActionResult> GetProfile([FromBody] SearchForBandmatesQuery query)
     {
       try
       {
