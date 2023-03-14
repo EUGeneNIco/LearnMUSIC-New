@@ -27,6 +27,9 @@ export class PaginationComponent implements OnInit, OnChanges {
       if(propName === 'allSheets' && changes['allSheets'].currentValue.length > 0){
         this.showFirstPage();
       }
+      if(propName === 'allSheets' && changes['allSheets'].currentValue.length === 0){
+        this.needMorePage = false;
+      }
     }
   }
   ngOnInit(): void {

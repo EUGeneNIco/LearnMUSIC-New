@@ -14,6 +14,8 @@ namespace LearnMUSIC.Core.Application._Interfaces
 
     DbSet<User> Users { get; set; }
 
+    DbSet<UserInstrument> UserInstruments { get; set; }
+
     DbSet<UserModuleAccess> UserModuleAccesses { get; set; }
 
     DbSet<Module> Modules { get; set; }

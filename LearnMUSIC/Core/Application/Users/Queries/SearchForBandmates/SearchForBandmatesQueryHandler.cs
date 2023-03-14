@@ -54,16 +54,16 @@ namespace LearnMUSIC.Core.Application.Users.Queries.SearchForBandmates
         otherUsers = otherUsers;
       }
 
-      if (request.InstrumentId != null && request.GenreId > 0)
+      if (request.InstrumentId != null && request.InstrumentId > 0)
       {
-        var genre = await this.dbContext.CodeListValues.FindAsync(request.GenreId);
+        var instrument = await this.dbContext.CodeListValues.FindAsync(request.InstrumentId);
 
-        if (genre is null)
+        if (instrument is null)
         {
           throw new NotFoundException("Genre not found.");
         }
 
-        otherUsers = otherUsers;
+        otherUsers = otherUsers.Where(x => x.Instruments.Any(x => x.InstrumentId == instrument.Id));
       }
 
       if (!string.IsNullOrWhiteSpace(request.Name))

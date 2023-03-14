@@ -14,6 +14,8 @@ namespace LearnMUSIC.Infrastructure.Persistence
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<UserInstrument> UserInstruments { get; set; }
+
     public DbSet<UserModuleAccess> UserModuleAccesses { get; set; }
 
     public DbSet<Module> Modules { get; set; } 

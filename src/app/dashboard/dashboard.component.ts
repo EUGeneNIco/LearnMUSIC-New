@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SelectItem } from '../_helpers/selectItem';
 import { AuthService } from '../_services/auth.service';
 import { CodeListValuesService } from '../_services/code-list-values.service';
@@ -13,23 +14,18 @@ import { UserService } from '../_services/user.service';
 export class DashboardComponent implements OnInit {
 
   instrumentalists: any[] = [];
-  selectedInstrument: any = "Instruments (Any)";
+  // selectedInstrument: any = "Instruments (Any)";
   bandmateSearchFormModel!: FormGroup;
 
-  readonly instruments : any[] = [
-    'Acoustic Guitar',
-    'Electric Guitar',
-    'Keyboard',
-    'Violin',
-    'Bass Guitar',
-    'Drums',
-    'Saxophone',
-    'Trumpet',
-  ]
-
+  instruments : SelectItem[] = [];
   genres: SelectItem[] =[];
   selectedGenre: SelectItem = {
     label: 'Genre (Any)',
+    value: null,
+  };
+
+  selectedInstrument: SelectItem = {
+    label: 'Instrument (Any)',
     value: null,
   };
 
@@ -43,6 +39,7 @@ export class DashboardComponent implements OnInit {
   get name() { return this.bandmateSearchFormModel.get('name'); }
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
@@ -66,6 +63,18 @@ export class DashboardComponent implements OnInit {
         console.log(e);
       }
     })
+
+    this.codeListValueService.getInstruments().subscribe({
+      next: (data: any) => {
+        this.instruments = data.map((d:any) => {
+          return { label: d.name, value: d.id }
+        });
+        console.log("Instruments: ", data);
+      },
+      error: (e) => {
+        console.log(e);
+      }
+    })
   }
 
   initializeFormModel(){
@@ -80,25 +89,28 @@ export class DashboardComponent implements OnInit {
     let params = {
       userId: this.authService.userID,
       genreId: this.selectedGenre.value,
-      instrument: this.selectedInstrument,
+      instrumentId: this.selectedInstrument.value,
       name: this.name?.value,
     }
+    console.log("search for bandmates: ", params);
 
     this.userService.searchForBandmates(params).subscribe({
       next: (data: any) => {
-        // console.log("Musicians: ",data);
+        console.log("Musicians: ",data);
         // this.instrumentalists = data;
 
-        if(data.length > this.searchPeoplePageLimit){
-          this.needMorePage = true;
+        if(data.length > 0){
+          if(data.length > this.searchPeoplePageLimit){
+            this.needMorePage = true;
+          }
+        }
+        else{
+          this.instrumentalists = [];
         }
 
-        if(this.allSheets.length > 0){
-          this.allSheets = [];
-          // console.log("delete sheets: ", this.allSheets);
-        }
-
+        this.allSheets = [];
         this.allSheets = data;
+        
         console.log("allsheets: ", this.allSheets);
       },
       error: (e) => {
@@ -120,14 +132,18 @@ export class DashboardComponent implements OnInit {
   }
 
   onSelectInstrument(ins: any){
+    console.log("Selected inst: ", ins);
     this.selectedInstrument = ins;
     this.searchForBandmates();
   }
 
   onSelectGenre(genre: any){
-    console.log(genre);
     this.selectedGenre = genre;
     this.searchForBandmates();
+  }
+
+  visitProfile(id: any){
+    this.router.navigateByUrl('edit-profile/' + id);
   }
 
 }

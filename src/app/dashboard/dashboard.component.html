@@ -37,11 +37,11 @@
 
                     <div class="btn-group search-filter col-lg-2 col-md-3 col-6">
                       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{selectedInstrument}}
+                        {{selectedInstrument.label}}
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <li *ngFor="let inst of instruments" (click)="onSelectInstrument(inst)">
-                          <a class="dropdown-item">{{inst}}</a></li>
+                          <a class="dropdown-item">{{inst.label}}</a></li>
                       </ul>
                     </div>
                     <div class="btn-group search-filter col-md-2 col-6">
@@ -61,10 +61,11 @@
                         <div class="card-body text-light text-center">
                           <h4 class="mb-3 card-title"><a>{{musician.fullName}}</a></h4>
                           <p class="card-text sub-lead">@{{musician.codeName}}</p>
+                          <p class="card-text sub-lead" *ngFor="let item of musician.instruments">{{item.instrument}}</p>
                           <p class="card-text">Rock/Ballad</p>
                         </div>
                         <div class="row g-2 mt-3 justify-content-between">
-                          <button class="btn btn-primary col-lg-5 col-12">See Profile</button>
+                          <button class="btn btn-primary col-lg-5 col-12" (click)="visitProfile(musician.id)">See Profile</button>
                           <button class="btn btn-success col-lg-5 col-12">Message</button>
                         </div>
                       </div>

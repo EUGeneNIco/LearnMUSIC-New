@@ -18,4 +18,8 @@ export class CodeListValuesService extends BaseService {
   getKeys(){
     return this.http.get(this.API_URL + '/CodeListValues/getKeys');
   }
+
+  getInstruments(){
+    return this.http.get(this.API_URL + '/CodeListValues/getInstruments');
+  }
 }

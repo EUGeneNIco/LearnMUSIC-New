@@ -32,11 +32,15 @@ namespace LearnMUSIC.Core.Domain.Entities
 
     public virtual ICollection<Photo> Photos { get; set; }
 
+    public virtual ICollection<UserInstrument> Instruments { get; set; }
+
     public User()
     {
       this.ModuleAccesses = new HashSet<UserModuleAccess>();
 
       this.Photos = new HashSet<Photo>();
+
+      this.Instruments = new HashSet<UserInstrument>();
     }
   }
 }

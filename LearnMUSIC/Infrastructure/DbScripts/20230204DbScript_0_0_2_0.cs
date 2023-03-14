@@ -1,6 +1,7 @@
 
 using LearnMusic.Core.Domain.Enumerations;
 using LearnMUSIC.Common.Helper;
+using LearnMUSIC.Core.Application._Interfaces;
 using LearnMUSIC.Core.Domain.Entities;
 using LearnMUSIC.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,11 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
 {
   internal class DbScript_0_0_2_0
   {
-    private static AppDbContext _dbContext = null;
+    private static IAppDbContext _dbContext = null;
 
     private static List<User> users;
 
-    internal static void Run(AppDbContext dbContext, CodeListValue lastDbVersionEntity)
+    internal static void Run(IAppDbContext dbContext, CodeListValue lastDbVersionEntity)
     {
       var thisVersion = new Version("0.0.2.0");
       var lastDbVersion = new Version(lastDbVersionEntity.Name);
@@ -62,6 +63,8 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
         {
           SeedUsers();
 
+          SeedInstrumentToUsers();
+
           SeedNonAdminAccess();
 
           lastDbVersionEntity.Name = thisVersion.ToString();
@@ -72,8 +75,8 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
         {
           Console.Write($"\n\nSeeding Error: {ex.InnerException.Message}");
         }
-      }
     }
+  }
 
     private static void SeedUsers()
     {
@@ -86,6 +89,24 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
       }
 
       _dbContext.SaveChanges();
+    }
+
+    private static void SeedInstrumentToUsers()
+    {
+      var dbUsers = _dbContext.Users.ToList();
+      var dbInstruments = _dbContext.CodeListValues
+        .Where(x => x.Type == CodeListType.Instrument)
+        .ToList();
+
+      foreach (var user in dbUsers)
+      {
+        _dbContext.UserInstruments.Add(new UserInstrument
+        {
+          User = user,
+          Instrument = dbInstruments[dbUsers.IndexOf(user)],
+          CreatedOn = DateTime.Now,
+        });
+      }
     }
 
     private static void SeedNonAdminAccess()

@@ -1,6 +1,7 @@
 
 using LearnMusic.Core.Domain.Enumerations;
 using LearnMUSIC.Common.Helper;
+using LearnMUSIC.Core.Application._Interfaces;
 using LearnMUSIC.Core.Domain.Entities;
 using LearnMUSIC.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +15,14 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
 {
   internal class DbScript_0_0_1_0
   {
-    private static AppDbContext _dbContext = null;
+    private static IAppDbContext _dbContext = null;
 
     private static List<CodeListValue> genres;
+    private static List<CodeListValue> instruments;
     private static List<CodeListValue> keys;
     private static List<Module> modules;
 
-    internal static void Run(AppDbContext dbContext, CodeListValue lastDbVersionEntity)
+    internal static void Run(IAppDbContext dbContext, CodeListValue lastDbVersionEntity)
     {
       var thisVersion = new Version("0.0.1.0");
       var lastDbVersion = new Version(lastDbVersionEntity.Name);
@@ -65,7 +67,18 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
           new CodeListValue { Name = "Techno", Type = CodeListType.Genre },
         };
 
-        
+        instruments = new List<CodeListValue>
+        {
+          new CodeListValue { Name = "Acoustic Guitar", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Electric Guitar", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Bass Guitar", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Drums", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Keyboard", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Violin", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Trumpet", Type = CodeListType.Instrument },
+          new CodeListValue { Name = "Saxophone", Type = CodeListType.Instrument },
+        };
+
         modules = new List<Module>
         {
           new Module { Name = "SongSheet", Category = "Usual" },
@@ -84,6 +97,8 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
 
           SeedGenres();
 
+          SeedInstruments();
+
           SeedKeys();
 
           SeedModules();
@@ -98,8 +113,8 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
         {
           Console.Write($"\n\nSeeding Error: {ex.InnerException.Message}");
         }
-      }
     }
+  }
 
     private static void SeedUsers()
     {
@@ -128,6 +143,19 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
       if (!_dbContext.CodeListValues.Any(p => p.Type == CodeListType.Genre))
       {
         foreach (var item in genres)
+        {
+          _dbContext.CodeListValues.Add(item);
+        }
+
+        _dbContext.SaveChanges();
+      }
+    }
+
+    private static void SeedInstruments()
+    {
+      if (!_dbContext.CodeListValues.Any(p => p.Type == CodeListType.Instrument))
+      {
+        foreach (var item in instruments)
         {
           _dbContext.CodeListValues.Add(item);
         }

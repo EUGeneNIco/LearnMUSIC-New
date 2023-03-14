@@ -1,5 +1,6 @@
 using AutoMapper;
 using LearnMUSIC.Core.Application._Interfaces.Mapping;
+using LearnMUSIC.Core.Application.UserInstruments.Models;
 using LearnMUSIC.Core.Domain.Entities;
 
 namespace LearnMUSIC.Core.Application.Users.Queries.SearchForBandmates
@@ -15,6 +16,8 @@ namespace LearnMUSIC.Core.Application.Users.Queries.SearchForBandmates
     public string AboutMe { get; set; }
 
     public string PhotoUrl { get; set; }
+
+    public ICollection<UserInstrumentDto> Instruments { get; set; }
 
     public void CreateMappings(Profile configuration)
     {
