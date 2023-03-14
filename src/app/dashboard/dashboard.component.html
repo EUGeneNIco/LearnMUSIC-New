@@ -33,9 +33,9 @@
                       <button class="btn btn-outline-success" (click)="searchForBandmates()" type="submit">Search</button>
                     </div>
                     
-                    <div class="col"></div>
+                    <div class="col-md"></div>
 
-                    <div class="btn-group search-filter col-md-2 col-6">
+                    <div class="btn-group search-filter col-lg-2 col-md-3 col-6">
                       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         {{selectedInstrument}}
                       </button>
@@ -55,7 +55,7 @@
                     </div>
                   </form>
                   <div class="row g-4 mt-3 mb-5">
-                    <div class="col-lg-3 col-md-4" *ngFor="let musician of this.intrumentalists">
+                    <div class="col-lg-3 col-md-4" *ngFor="let musician of this.instrumentalists">
                       <div class="card bg-secondary p-md-3 p-5 musician-card">
                         <img src="{{musician.photoUrl || 'assets/images/user.png'}}" alt="" class="img-thumbnail rounded-circle img-fluid">
                         <div class="card-body text-light text-center">
@@ -92,7 +92,6 @@
                       </button>
                     </div> -->
                     <app-pagination
-                      [needMorePage]="needMorePage"
                       [allSheets]="allSheets"
                       [pageLimit]="searchPeoplePageLimit"
                       [type]="type"

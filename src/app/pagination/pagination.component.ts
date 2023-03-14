@@ -9,9 +9,10 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   all: any[] = [];
   sheets: any[] = [];
+  needMorePage: boolean = false;
 
   // @Input() sheets: any;
-  @Input() needMorePage: any;
+  // @Input() needMorePage: any;
   @Input() allSheets: any;
   @Input() pageLimit: any;
   @Input() type: any;
@@ -43,7 +44,7 @@ export class PaginationComponent implements OnInit, OnChanges {
     if(this.allSheets !== undefined && this.allSheets.length > 0 
         && this.pageLimit !== undefined && this.pageLimit > 0){
 
-      console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
+      // console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
       let lastIndex: any;
       if(this.allSheets.length >= this.pageLimit){
         lastIndex = this.pageLimit
@@ -52,6 +53,7 @@ export class PaginationComponent implements OnInit, OnChanges {
         lastIndex = this.allSheets.length;
       }
       // this.outputSheets.emit(this.sheets);
+      this.sheets = [];
       for(let index = 0; index < lastIndex; index++){
         this.sheets.push(this.allSheets[index]);
       }
@@ -59,6 +61,8 @@ export class PaginationComponent implements OnInit, OnChanges {
       this.sheetsLeft = this.allSheets.length - this.lastSheetNo;
       this.showStatus();
       this.outputSheets.emit(this.sheets);
+      console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
+      this.allSheets.length <= this.pageLimit ? this.needMorePage = false : this.needMorePage = true;
       // console.log("Sheets: ", this.sheets);
     }
   }

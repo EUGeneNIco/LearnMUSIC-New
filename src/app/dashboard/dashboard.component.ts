@@ -12,7 +12,7 @@ import { UserService } from '../_services/user.service';
 })
 export class DashboardComponent implements OnInit {
 
-  intrumentalists: any[] = [];
+  instrumentalists: any[] = [];
   selectedInstrument: any = "Instruments (Any)";
   bandmateSearchFormModel!: FormGroup;
 
@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
     this.userService.searchForBandmates(params).subscribe({
       next: (data: any) => {
         // console.log("Musicians: ",data);
-        // this.intrumentalists = data;
+        // this.instrumentalists = data;
 
         if(data.length > this.searchPeoplePageLimit){
           this.needMorePage = true;
@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit {
 
         if(this.allSheets.length > 0){
           this.allSheets = [];
-          console.log("delete sheets: ", this.allSheets);
+          // console.log("delete sheets: ", this.allSheets);
         }
 
         this.allSheets = data;
@@ -111,7 +111,11 @@ export class DashboardComponent implements OnInit {
   displaySheets(event: any){
     if(event){
       // console.log("Output sheet from child",event);
-      this.intrumentalists = event;
+      if(this.instrumentalists.length > 0){
+        this.instrumentalists = [];
+        console.log("delete sheets: ", this.instrumentalists, event);
+      }
+      this.instrumentalists = event;
     }
   }
 
