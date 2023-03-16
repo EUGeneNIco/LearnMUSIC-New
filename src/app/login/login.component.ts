@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private fb: FormBuilder,
-    private toastr: ToastrService,
+    public toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -40,14 +40,18 @@ export class LoginComponent implements OnInit {
   onLogIn(){
     if(this.form.valid){
       const record = this.form.getRawValue();
-      console.log(record);
+      // console.log(record);
       
       this.authService.login({
         username: record.userName,
         password: record.password,
       }).subscribe({
         next:(data: any) => {
+          console.log("token ", JSON.parse(data) );
 					this.authService.authToken = JSON.parse(data).token;
+          this.authService.userToStorage = JSON.stringify(JSON.parse(data));
+          this.authService.setCurrentUser();
+          console.log("Current user: ", this.authService.currentUser$, this.authService.userFromStorage);
           // console.log("Orig Token: ", data);
           // console.log("Parsed Token: ", this.authService.authToken);
           // console.log("Parsed Token (Subject): ", this.authService.authToken.split('.')[1]);

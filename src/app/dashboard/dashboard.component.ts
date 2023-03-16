@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { SelectItem } from '../_helpers/selectItem';
 import { AuthService } from '../_services/auth.service';
 import { CodeListValuesService } from '../_services/code-list-values.service';
@@ -39,6 +40,7 @@ export class DashboardComponent implements OnInit {
   get name() { return this.bandmateSearchFormModel.get('name'); }
 
   constructor(
+    private toastr: ToastrService,
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
@@ -57,10 +59,10 @@ export class DashboardComponent implements OnInit {
         this.genres = data.map((d:any) => {
           return { label: d.name, value: d.id }
         });
-        console.log("Genres: ", data);
+        // console.log("Genres: ", data);
       },
       error: (e) => {
-        console.log(e);
+        this.toastr.error(e);
       }
     })
 
@@ -69,10 +71,10 @@ export class DashboardComponent implements OnInit {
         this.instruments = data.map((d:any) => {
           return { label: d.name, value: d.id }
         });
-        console.log("Instruments: ", data);
+        // console.log("Instruments: ", data);
       },
       error: (e) => {
-        console.log(e);
+        this.toastr.error(e);
       }
     })
   }
@@ -92,12 +94,11 @@ export class DashboardComponent implements OnInit {
       instrumentId: this.selectedInstrument.value,
       name: this.name?.value,
     }
-    console.log("search for bandmates: ", params);
+    // console.log("search for bandmates: ", params);
 
     this.userService.searchForBandmates(params).subscribe({
       next: (data: any) => {
-        console.log("Musicians: ",data);
-        // this.instrumentalists = data;
+        // console.log("Musicians: ",data);
 
         if(data.length > 0){
           if(data.length > this.searchPeoplePageLimit){
@@ -111,11 +112,10 @@ export class DashboardComponent implements OnInit {
         this.allSheets = [];
         this.allSheets = data;
         
-        console.log("allsheets: ", this.allSheets);
+        // console.log("allsheets: ", this.allSheets);
       },
       error: (e) => {
-        // this.toastr.error(e);
-        console.log(e);
+        this.toastr.error(e);
       }
     })
   }
@@ -125,14 +125,14 @@ export class DashboardComponent implements OnInit {
       // console.log("Output sheet from child",event);
       if(this.instrumentalists.length > 0){
         this.instrumentalists = [];
-        console.log("delete sheets: ", this.instrumentalists, event);
+        // console.log("delete sheets: ", this.instrumentalists, event);
       }
       this.instrumentalists = event;
     }
   }
 
   onSelectInstrument(ins: any){
-    console.log("Selected inst: ", ins);
+    // console.log("Selected inst: ", ins);
     this.selectedInstrument = ins;
     this.searchForBandmates();
   }

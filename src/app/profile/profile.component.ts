@@ -39,16 +39,13 @@ export class ProfileComponent implements OnInit {
     this.initializeForm();
     
     this.getIdFromRoute();
-
-    console.log("this.recordId: ", this.recordId);
+    // console.log("this.recordId: ", this.recordId);
     if(this.recordId === null){
-      this.getOwnProfile();
+      this.displayOwnProfile();
     }
     else{
       this.getProfile();
     }
-
-    console.log(this.profileForm);
   }
 
   initializeForm() {
@@ -77,10 +74,14 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  displayOwnProfile(){
+    this.profileForm.patchValue(this.authService.userObjectFromStorage);
+  }
+
   getOwnProfile(){
     this.userService.getOwnProfile(this.authService.userID).subscribe({
       next: (data: any) => {
-        console.log("User!: ", data);
+        // console.log("User!: ", data);
         this.profileForm.patchValue(data);
       },
       error: (e) => {
@@ -92,7 +93,7 @@ export class ProfileComponent implements OnInit {
   getProfile(){
     this.userService.getOwnProfile(this.recordId).subscribe({
       next: (data: any) => {
-        console.log("User!: ", data);
+        // console.log("User!: ", data);
         this.profileForm.patchValue(data);
       },
       error: (e) => {

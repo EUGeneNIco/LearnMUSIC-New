@@ -84,7 +84,6 @@ export class SongSheetsComponent implements OnInit {
   }
 
   deleteSongSheet(sheetId: any){
-    console.log(sheetId);
     this.songSheetService.delete(sheetId).subscribe({
       next: (data: any) => {
         // console.log(data);

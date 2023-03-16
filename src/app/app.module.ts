@@ -13,13 +13,13 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SongSheetsComponent } from './song-sheets/song-sheets.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { NoopAnimationPlayer } from '@angular/animations';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     HttpClientModule,
     RouterModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-bottom-right',
     }),
     BrowserAnimationsModule,
   ],

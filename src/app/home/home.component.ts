@@ -5,6 +5,7 @@ import { ModalContainerComponent } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ApiCallStatusCodes } from '../_enums/enums';
 import { AuthService } from '../_services/auth.service';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { AuthService } from '../_services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
+  loggedIn: boolean = false;
   loginForm!: FormGroup;
 
   get userName() { return this.loginForm.get("userName"); }
@@ -21,12 +23,16 @@ export class HomeComponent implements OnInit {
   // @ViewChild('loginModal', { static: true }) loginModal: ModalContainerComponent | undefined;
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     this.initializeForm();
+
+    this.loggedIn = this.authService.authToken !== null ? true : false;
+
   }
 
   initializeForm(){

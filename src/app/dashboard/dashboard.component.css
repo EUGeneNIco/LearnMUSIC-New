@@ -1,4 +1,4 @@
-.musician-card:hover img {
+.musician-card img:hover {
     transform: scale(1.07);
     transition: 0.5s ease-in-out;
 }
@@ -9,4 +9,14 @@
 
 .search-filter ul li a:hover{
     cursor: pointer;
+}
+
+.actions i{
+    font-size: xx-large;
+    cursor: pointer;
+}
+.actions i:hover{
+    color: rgb(44, 165, 14);
+    transform: scale(1.5);
+    transition: 0.3s ease-in-out;
 }

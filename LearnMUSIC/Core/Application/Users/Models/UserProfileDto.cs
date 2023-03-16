@@ -27,6 +27,8 @@ namespace LearnMUSIC.Core.Application.Users.Models
 
     public string PhotoUrl { get; set; }
 
+    public string Token { get; set; }
+
     public void CreateMappings(Profile configuration)
     {
       configuration.CreateMap<User, UserProfileDto>()

@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/auth.service';
+import { User } from "../_models/User";
 
 @Component({
   selector: 'app-main-nav',
@@ -12,18 +13,28 @@ import { AuthService } from '../_services/auth.service';
 export class MainNavComponent implements OnChanges {
   
   isAdmin: boolean = false;
+  currentUser: User = {
+    username: '',
+    codeName: '',
+    bio: '',
+    aboutMe: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    photoUrl: '',
+  }
 
   @Input() loggedIn:any;
   @Output() loggedOut = new EventEmitter();
 
   constructor(
     private toastr: ToastrService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Changes from main nav: ",changes['loggedIn'].currentValue)
+    // console.log("Changes from main nav: ",changes['loggedIn'].currentValue)
     for (const propName in changes) {
       if(propName === 'loggedIn' && changes['loggedIn'].currentValue === true){
         this.loggedIn = true; 
@@ -33,7 +44,10 @@ export class MainNavComponent implements OnChanges {
 
   ngOnInit(): void {
     this.checkIfSignedIn();
-    console.log("A User is Logged In ? (main nav): ", this.loggedIn)
+    console.log("A User is Logged In ? (main nav): ", this.authService.userObjectFromStorage);
+    this.currentUser = this.authService.userObjectFromStorage;
+
+    this.authService.currentUser$ === null ? this.loggedIn = false : this.loggedIn = true;
     // if(this.loggedIn){
     //   this.checkIfAdmin();
     // }
@@ -41,6 +55,10 @@ export class MainNavComponent implements OnChanges {
 
   signOut() {
     this.authService.destroyAuthToken();
+
+    this.authService.setCurrentUserToNull();
+    this.authService.destroyUserObjectFromStorage();
+    console.log("Current user: ", this.authService.currentUser$, this.authService.userFromStorage);
 
     this.loggedIn = false;
 
@@ -56,7 +74,9 @@ export class MainNavComponent implements OnChanges {
   }
 
   checkIfSignedIn(){
-    this.loggedIn = this.authService.authToken !== null ? true : false;
+    this.loggedIn = this.authService.authToken !== null 
+      ? this.authService.setCurrentUser() 
+      : this.authService.setCurrentUserToNull();
   }
 
   checkIfAdmin(){

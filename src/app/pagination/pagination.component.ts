@@ -21,7 +21,7 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Pagination changes (Child): ", changes);
+    // console.log("Pagination changes (Child): ", changes);
 
     for (const propName in changes) {
       if(propName === 'allSheets' && changes['allSheets'].currentValue.length > 0){
@@ -43,7 +43,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   hasPrevPage: boolean = false;
 
   showFirstPage(){
-    console.log("show first page", this.allSheets,this.pageLimit, this.type)
+    // console.log("show first page", this.allSheets,this.pageLimit, this.type)
     if(this.allSheets !== undefined && this.allSheets.length > 0 
         && this.pageLimit !== undefined && this.pageLimit > 0){
 
@@ -64,7 +64,7 @@ export class PaginationComponent implements OnInit, OnChanges {
       this.sheetsLeft = this.allSheets.length - this.lastSheetNo;
       this.showStatus();
       this.outputSheets.emit(this.sheets);
-      console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
+      // console.log("All sheets show first page: ", this.allSheets, this.pageLimit);
       this.allSheets.length <= this.pageLimit ? this.needMorePage = false : this.needMorePage = true;
       // console.log("Sheets: ", this.sheets);
     }

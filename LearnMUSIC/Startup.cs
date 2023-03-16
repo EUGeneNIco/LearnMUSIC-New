@@ -73,7 +73,8 @@ namespace LearnMUSIC
 
       app.UseCors(policy => policy.AllowAnyHeader()
                                   .AllowAnyMethod()
-                                  .WithOrigins("http://localhost:4200", "http://192.168.100.2:4200", "http://0.0.0.0:4200"));
+                                  .WithOrigins("http://localhost:4200", "http://192.168.100.2:4200",
+                                  "http://0.0.0.0:4200", "https://learnmusic-b2b49.web.app"));
 
       app.UseAuthentication();
 
