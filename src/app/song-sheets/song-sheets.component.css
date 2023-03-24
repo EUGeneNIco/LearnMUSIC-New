@@ -1,3 +1,66 @@
 * {
     cursor: pointer;
 }
+
+.container {
+    background-color: #f6f5f5;
+}
+
+.card-effect {
+    box-shadow: var(--box-shadow);
+    background-color: #fff;
+    padding: 25px;
+    transition: all 0.35s ease;
+}
+
+.card-effect:hover{
+    box-shadow: none;
+    transform: translateY(5px);
+}
+
+.iconbox {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: #fff;
+    font-size: 32px;
+    border-radius: 100px;
+    flex: none;
+}
+
+.sheet {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.sheet::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background-color: var(--primary);
+    z-index: -1;
+    opacity: 0;
+}
+
+.sheet:hover .iconbox {
+    background-color: #fff;
+    color: var(--primary);
+}
+
+.sheet:hover h4,
+.sheet:hover p {
+    color: #fff;
+}
+
+.sheet:hover::after {
+    opacity: 1;
+    top: 0;
+    transition: all 0.4s ease;
+} 

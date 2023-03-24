@@ -1,65 +1,57 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 sticky-top">
     <div class="container">
         <a href="" class="navbar-brand">LearnMUSIC</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a style="cursor: pointer" 
+                    class="nav-link active" 
+                    (click)="goToDashboard()" 
+                    *ngIf="(authService.currentUser$ | async)">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#features" 
+                    class="nav-link" 
+                    *ngIf="(authService.currentUser$ | async) === null">Developer</a>
+            </li>
+            <li class="nav-item">
+                <a style="cursor: pointer" 
+                    class="nav-link" 
+                    (click)="goToLogInPage()" 
+                    *ngIf="(authService.currentUser$ | async) === null">Login</a>
+            </li>
+        </ul>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu"><span
-                class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navmenu">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a style="cursor: pointer" 
-                        class="nav-link active" 
-                        (click)="goToDashboard()" 
-                        *ngIf="(authService.currentUser$ | async)">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#questions" 
-                        class="nav-link" 
-                        *ngIf="(authService.currentUser$ | async) === null">Questions</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#creator" 
-                        class="nav-link" 
-                        *ngIf="(authService.currentUser$ | async) === null">Developer</a>
-                </li>
-                <li class="nav-item">
-                    <a style="cursor: pointer" 
-                        class="nav-link" 
-                        (click)="goToLogInPage()" 
-                        *ngIf="(authService.currentUser$ | async) === null">Login</a>
-                </li>
-            </ul>
-
-            <ul *ngIf="(authService.currentUser$ | async)" 
-                class="navbar-nav ms-auto" 
-                style="width:100%; display: flex; text-align: right;">
-                <li class="nav-item" 
-                    style="margin-left: auto">
-                    <img style="width:10%; height: 100%;" 
-                        src="{{currentUser.photoUrl || 'assets/images/user.png'}}" 
-                        alt="{{currentUser.firstName}}">
-                </li>
-                <li class="nav-item dropdown" 
-                    style="cursor: pointer; margin-left: 10px;">
-                    <a style="text-align: right;"
-                        class="nav-link dropdown-toggle active"  
-                        href="#" 
-                        data-bs-toggle="dropdown" 
-                        aria-expanded="false">Welcome {{currentUser.firstName}}</a>
-                    <ul class="dropdown-menu mt-3">
-                        <li><a class="dropdown-item" 
-                                *ngIf="(authService.currentUser$ | async)" 
-                                (click)="editProfile()" 
-                                routerLinkActive="active">Edit Profile</a></li>
-                        <li><a class="dropdown-item" 
-                                *ngIf="(authService.currentUser$ | async)" 
-                                (click)="signOut()">Log Out</a></li>
-                    </ul>
-                </li>
-                
-            </ul>
-        </div>
+        <ul *ngIf="(authService.currentUser$ | async)" 
+            class="navbar-nav ms-auto" 
+            style="width:100%; display: flex; text-align: right;">
+            <li class="nav-item" 
+                style="margin-left: auto">
+                <img style="width:10%; height: 100%;" 
+                    src="{{currentUser.photoUrl || 'assets/images/user.png'}}" 
+                    alt="{{currentUser.firstName}}">
+            </li>
+            <li class="nav-item dropdown" 
+                style="cursor: pointer; margin-left: 10px;">
+                <a style="text-align: right;"
+                    class="nav-link dropdown-toggle active"  
+                    href="#" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">Welcome {{currentUser.firstName}}</a>
+                <ul class="dropdown-menu mt-3">
+                    <li><a class="dropdown-item" 
+                            *ngIf="(authService.currentUser$ | async)" 
+                            (click)="viewProfile()" 
+                            routerLinkActive="active">My Profile</a></li>
+                    <li><a class="dropdown-item" 
+                            *ngIf="(authService.currentUser$ | async)" 
+                            (click)="signOut()">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>

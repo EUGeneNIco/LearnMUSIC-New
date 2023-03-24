@@ -2,9 +2,9 @@
     [loggedIn]="loggedIn"
     (loggedOut) = "loggedOut($event)"
 ></app-main-nav>
-<div style="margin-top: 30px;">
+<div>
   <router-outlet
     (userHasLoggedIn) = "userHasLoggedIn($event)"
   ></router-outlet>
 </div>
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

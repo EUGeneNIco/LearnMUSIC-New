@@ -1,6 +1,7 @@
 using AutoMapper;
 using LearnMUSIC.Core.Application._Interfaces.Mapping;
 using LearnMUSIC.Core.Application.Photos.Models;
+using LearnMUSIC.Core.Application.UserInstruments.Models;
 using LearnMUSIC.Core.Domain.Entities;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -28,6 +29,8 @@ namespace LearnMUSIC.Core.Application.Users.Models
     public string PhotoUrl { get; set; }
 
     public string Token { get; set; }
+
+    public virtual ICollection<UserInstrumentDto> Instruments { get; set; }
 
     public void CreateMappings(Profile configuration)
     {

@@ -48,14 +48,10 @@ export class MainNavComponent implements OnChanges {
     this.currentUser = this.authService.userObjectFromStorage;
 
     this.authService.currentUser$ === null ? this.loggedIn = false : this.loggedIn = true;
-    // if(this.loggedIn){
-    //   this.checkIfAdmin();
-    // }
   }
 
   signOut() {
     this.authService.destroyAuthToken();
-
     this.authService.setCurrentUserToNull();
     this.authService.destroyUserObjectFromStorage();
     console.log("Current user: ", this.authService.currentUser$, this.authService.userFromStorage);
@@ -87,7 +83,7 @@ export class MainNavComponent implements OnChanges {
     this.router.navigateByUrl('dashboard');
   }
 
-  editProfile(){
+  viewProfile(){
     this.router.navigateByUrl('edit-profile');
   }
 }

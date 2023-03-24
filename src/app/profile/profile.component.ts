@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   // get photos(): FormArray { return this.profileForm.get('photos') as FormArray;}
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private fb: FormBuilder,
@@ -112,5 +113,9 @@ export class ProfileComponent implements OnInit {
         this.toastr.error(e.error);
       }
     })
+  }
+
+  goToDashboard(){
+    this.router.navigateByUrl('dashboard');
   }
 }
