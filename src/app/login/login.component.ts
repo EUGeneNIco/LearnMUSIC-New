@@ -47,11 +47,11 @@ export class LoginComponent implements OnInit {
         password: record.password,
       }).subscribe({
         next:(data: any) => {
-          console.log("token ", JSON.parse(data) );
+          // console.log("token ", JSON.parse(data) );
 					this.authService.authToken = JSON.parse(data).token;
           this.authService.userToStorage = JSON.stringify(JSON.parse(data));
           this.authService.setCurrentUser();
-          console.log("Current user: ", this.authService.currentUser$, this.authService.userFromStorage);
+          console.log("Current user: ", this.authService.userFromStorage);
           // console.log("Orig Token: ", data);
           // console.log("Parsed Token: ", this.authService.authToken);
           // console.log("Parsed Token (Subject): ", this.authService.authToken.split('.')[1]);

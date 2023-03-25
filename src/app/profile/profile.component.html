@@ -3,7 +3,7 @@
         <form [formGroup]="profileForm" action="">
             <div class="row profile p-lg-3 p-2">
                 <div class="col-lg-3 col-md-4 p-1 col-sm-6 col-10 mx-auto">
-                    <img src="{{photoUrl?.value || 'assets/images/user.png'}}" class="rounded-circle mb-3 img-fluid"
+                    <img src="{{photoUrl?.value || 'assets/image/user.png'}}" class="rounded-circle mb-3 img-fluid"
                     alt="">
                 </div>
                 <div class="col-lg-9 col-md-8 p-3">
@@ -11,6 +11,14 @@
                     <p class="sub-lead text-primary pb-5"><span>{{"@" + codeName?.value}}</span></p>
                     <p class="sub-lead pb-5"><span>{{"'" + bio?.value + "'"}}</span></p>
                     <p>{{aboutMe?.value}}</p>
+                    <p>Instruments:</p>
+                    <div class="d-sm-flex align-items-center justify-content-between" formArrayName="instruments">
+                        <div class="mr-5"  *ngFor="let instrument of instruments.controls let j=index" [formGroupName]="j">
+                            <div >
+                                <p class="sub-lead">{{instrument.get('instrument')?.value}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -19,6 +27,7 @@
             <button class="btn btn-primary col-4" *ngIf="this.recordId">Follow</button>
             <button class="btn btn-success col-4" *ngIf="this.recordId">Message</button>
             <button class="btn btn-secondary" [ngClass]="this.recordId !== null ? 'col-4' : 'col-6'" (click)="goToDashboard()">Back</button>
+            
         </div>
     </div>
 </section>

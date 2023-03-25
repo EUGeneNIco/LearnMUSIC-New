@@ -18,7 +18,7 @@ namespace LearnMUSIC.Core.Application.Users.Models
 
     public string AboutMe { get; set; }
 
-    public string PasswordHash { get; set; }
+    //public string PasswordHash { get; set; }
 
     public string FirstName { get; set; }
 
@@ -30,7 +30,7 @@ namespace LearnMUSIC.Core.Application.Users.Models
 
     public string Token { get; set; }
 
-    public virtual ICollection<UserInstrumentDto> Instruments { get; set; }
+    public ICollection<UserInstrumentDto> Instruments { get; set; }
 
     public void CreateMappings(Profile configuration)
     {

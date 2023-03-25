@@ -44,7 +44,7 @@ export class MainNavComponent implements OnChanges {
 
   ngOnInit(): void {
     this.checkIfSignedIn();
-    console.log("A User is Logged In ? (main nav): ", this.authService.userObjectFromStorage);
+    // console.log("A User is Logged In ? (main nav): ", this.authService.userObjectFromStorage);
     this.currentUser = this.authService.userObjectFromStorage;
 
     this.authService.currentUser$ === null ? this.loggedIn = false : this.loggedIn = true;
@@ -54,7 +54,7 @@ export class MainNavComponent implements OnChanges {
     this.authService.destroyAuthToken();
     this.authService.setCurrentUserToNull();
     this.authService.destroyUserObjectFromStorage();
-    console.log("Current user: ", this.authService.currentUser$, this.authService.userFromStorage);
+    // console.log("Current user: ", this.authService.currentUser$, this.authService.userFromStorage);
 
     this.loggedIn = false;
 

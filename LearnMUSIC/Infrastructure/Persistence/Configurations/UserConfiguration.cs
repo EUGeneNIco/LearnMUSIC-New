@@ -32,6 +32,10 @@ namespace LearnMUSIC.Infrastructure.Persistence.Configurations
       builder.HasMany(p => p.Photos)
         .WithOne(x => x.User)
         .OnDelete(DeleteBehavior.NoAction);
+
+      builder.HasMany(p => p.Instruments)
+        .WithOne(x => x.User)
+        .OnDelete(DeleteBehavior.NoAction);
     }
   }
 }

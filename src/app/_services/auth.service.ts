@@ -23,7 +23,7 @@ export class AuthService extends BaseService {
         // Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
         // localStorage.setItem('user', JSON.stringify(user));
         this.currentUserSource.next(this.userFromStorage);
-        console.log("Current User Source: ", this.currentUserSource);
+        console.log("Current User: ", this.userFromStorage);
       }
 
     get accessibleModulesOfUser(): string[] {

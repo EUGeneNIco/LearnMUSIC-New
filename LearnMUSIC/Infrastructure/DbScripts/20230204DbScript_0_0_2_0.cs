@@ -56,6 +56,20 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
             Bio = "nana korobi ya oki (Fall seven times, get up eight.)",
             CodeName = "goodBoyFromJapan",
             CreatedOn = DateTime.Now
+          },
+
+          new User
+          {
+            UserName = "togo",
+            Email = "togo@gmail.com",
+            PasswordHash = PasswordHelper.Hash("12345"),
+            FirstName = "Togo",
+            LastName = "Chooks",
+            AccountStatus = true,
+            AboutMe = "Please try you call later.",
+            Bio = "When I hear good music, I feel immortality.",
+            CodeName = "yourRockerDog",
+            CreatedOn = DateTime.Now
           }
         };
 
@@ -75,8 +89,8 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
         {
           Console.Write($"\n\nSeeding Error: {ex.InnerException.Message}");
         }
+      }
     }
-  }
 
     private static void SeedUsers()
     {
@@ -100,12 +114,29 @@ namespace AFPMBAI.CLAIMS.DbUpdate.DbScripts
 
       foreach (var user in dbUsers)
       {
-        _dbContext.UserInstruments.Add(new UserInstrument
+        var index = dbUsers.IndexOf(user);
+
+        if (user.UserName != "eugene")
         {
-          User = user,
-          Instrument = dbInstruments[dbUsers.IndexOf(user)],
-          CreatedOn = DateTime.Now,
-        });
+          _dbContext.UserInstruments.Add(new UserInstrument
+          {
+            User = user,
+            Instrument = dbInstruments[index],
+            CreatedOn = DateTime.Now,
+          });
+        }
+        else 
+        {
+          foreach (var instrument in dbInstruments.Where(x => x.Name == "Acoustic Guitar" || x.Name == "Electric Guitar" || x.Name == "Bass Guitar"))
+          {
+            _dbContext.UserInstruments.Add(new UserInstrument
+            {
+              User = user,
+              Instrument = instrument,
+              CreatedOn = DateTime.Now,
+            });
+          }
+        }
       }
     }
 

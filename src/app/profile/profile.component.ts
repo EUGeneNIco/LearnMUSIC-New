@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/auth.service';
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
   get passwordHash() { return this.profileForm.get('passwordHash'); }
   get photoUrl() { return this.profileForm.get('photoUrl'); }
 
-  // get photos(): FormArray { return this.profileForm.get('photos') as FormArray;}
+  get instruments(): FormArray { return this.profileForm.get('instruments') as FormArray;}
 
   constructor(
     private router: Router,
@@ -60,42 +60,38 @@ export class ProfileComponent implements OnInit {
           lastName: [''],
           userName: [''],
           passwordHash: [''],
-          photoUrl:['']
-          // photos: this.fb.array([
-          //   this.initPhotoForm()
-          // ])
+          photoUrl:[''],
+          instruments: this.fb.array([
+            this.initInstrumentForm()
+          ])
       })
     }
   };
 
-  initPhotoForm(){
+  initInstrumentForm(){
     return this.fb.group({
-      url: [''],
-      isMain: ['']
+      instrument: [''],
     })
   }
 
   displayOwnProfile(){
-    this.profileForm.patchValue(this.authService.userObjectFromStorage);
-  }
-
-  getOwnProfile(){
-    this.userService.getOwnProfile(this.authService.userID).subscribe({
-      next: (data: any) => {
-        // console.log("User!: ", data);
-        this.profileForm.patchValue(data);
-      },
-      error: (e) => {
-        this.toastr.error(e);
+    const userData = this.authService.userObjectFromStorage;
+    const userInstruments = userData.instruments;
+    if(userInstruments.length > 1){
+      for (let index = 1; index < userInstruments.length; index++) {
+        this.instruments.push(this.initInstrumentForm());
       }
-    })
+    }
+    this.profileForm.patchValue(userData);
+    console.log("Profile Form: ", this.profileForm);
   }
 
   getProfile(){
     this.userService.getOwnProfile(this.recordId).subscribe({
       next: (data: any) => {
-        // console.log("User!: ", data);
+        console.log("User!: ", data);
         this.profileForm.patchValue(data);
+        // console.log("Profile Form: ", this.profileForm, this.instruments);
       },
       error: (e) => {
         this.toastr.error(e);

@@ -1,4 +1,5 @@
 using AFPMBAI.CLAIMS.WebAPI.Auth;
+using AutoMapper;
 using LearnMUSIC.Controllers;
 using LearnMUSIC.Core.Application._Exceptions;
 using LearnMUSIC.Core.Application.Users.Command.CreateUser;
@@ -14,11 +15,13 @@ namespace LearnMUSIC.Interface.WebAPI.Controllers
   {
     private readonly IJwtAuthenticationManager authManager;
     private readonly IUserRepository repository;
+    private readonly IMapper mapper;
 
-    public AuthController(IJwtAuthenticationManager authManager, IUserRepository repository)
+    public AuthController(IJwtAuthenticationManager authManager, IUserRepository repository, IMapper mapper)
     {
       this.authManager = authManager;
       this.repository = repository;
+      this.mapper = mapper;
     }
 
     //Register
@@ -62,18 +65,11 @@ namespace LearnMUSIC.Interface.WebAPI.Controllers
         {
           return Unauthorized();
         }
-        return Ok(new UserProfileDto
-        {
-          Token = token,
-          UserName = user.UserName,
-          CodeName = user.CodeName,
-          Bio = user.Bio,
-          AboutMe = user.AboutMe,
-          FirstName = user.FirstName,
-          LastName = user.LastName,
-          Email = user.Email,
-          PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-        });
+
+        var userDto = this.mapper.Map<UserProfileDto>(user);
+        userDto.Token = token;
+
+        return Ok(userDto);
       }
       catch (UnauthorizedAccessException ex)
       {
